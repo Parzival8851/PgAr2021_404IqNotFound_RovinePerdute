@@ -1,10 +1,24 @@
+import javax.xml.stream.XMLStreamException;
 import java.util.ArrayList;
 
 public class Spedizione
 {
+	public static final String SPAZIO = "  ";
 	private static ArrayList<Nodo> vertici = new ArrayList<>();
 	private static double [][] archi;
-	private static InputXml lettura = new InputXml();
+	private static InputXml lettura;
+
+	static {
+		try {
+			lettura = new InputXml();
+		} catch (XMLStreamException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static RicercaCammino navigatore;
+
+
 
 	public static void main(String[] args)
 	{
@@ -13,7 +27,15 @@ public class Spedizione
 		// leggo quali città hanno collegamenti
 		archi= lettura.getArc();
 		// calcolo le distanze tra quelle che hanno collegamenti
-		setDdistanze();
+		setDistanze();
+
+
+		//test
+		testNodi();
+		testArchi();
+
+
+
 	}
 
 	/**
@@ -35,15 +57,39 @@ public class Spedizione
 	}
 
 
+
 	/**
 	 * getter dell'arco a->b
 	 * @param a id partenza
 	 * @param b id arrivo
 	 * @return lunghezza arco a->b
 	 */
-	public double getArco(int a, int b)
+	public static double getArco(int a, int b)
 	{
 		return archi[a][b];
+	}
+
+	private static void testNodi()
+	{
+		for (Nodo n : vertici)
+		{
+			System.out.println(n.getNome()+ SPAZIO +n.getId()+SPAZIO+n.getX()+SPAZIO+n.getY()+SPAZIO+n.getH());
+		}
+		System.out.println("\n\n");
+	}
+
+	private static void testArchi()
+	{
+		for (Nodo n : vertici)
+		{
+			System.out.println(n.getNome()+SPAZIO+n.getId());
+			for (int i = 0; i < archi.length; i++)
+			{
+				System.out.print("to "+i+":   ");
+				System.out.println(archi[n.getId()][i]);
+			}
+		}
+		System.out.println("\n\n");
 	}
 
 
