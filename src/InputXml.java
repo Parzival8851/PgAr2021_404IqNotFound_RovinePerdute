@@ -13,9 +13,9 @@ public class InputXml {
 
     public Nodo readNext(){
 
-        int id=0;
+        int id=0, x = 0, y = 0, h = 0;
         ArrayList<Integer> link = new ArrayList<Integer>();
-        String nome = null, x = null, y = null, h = null;
+        String nome = null ;
         try{
             xmlif = XMLInputFactory.newInstance();
             xmlr = xmlif.createXMLStreamReader(LINK, new FileInputStream(LINK));
@@ -32,11 +32,15 @@ public class InputXml {
                 if (xmlr.isStartElement() && xmlr.getLocalName().equalsIgnoreCase("city"))
                 {
 
+
+                    xmlr.getAttributeCount()
+
+                    if(xmlr.getAttributeLocalName(0).equals())
                     id=Integer.parseInt(xmlr.getAttributeValue(0));
                     nome = xmlr.getAttributeValue(1);
-                    x = xmlr.getAttributeValue(2);
-                    y = xmlr.getAttributeValue(3);
-                    h = xmlr.getAttributeValue(4);
+                    x = Integer.parseInt(xmlr.getAttributeValue(2));
+                    y = Integer.parseInt(xmlr.getAttributeValue(3));
+                    h = Integer.parseInt(xmlr.getAttributeValue(4));
 
                     while(!(xmlr.isStartElement() && xmlr.getLocalName().equalsIgnoreCase("link")))
                     {
