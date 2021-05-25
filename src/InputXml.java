@@ -13,6 +13,7 @@ public class InputXml {
 
     public Nodo readNext(){
 
+        int id=0;
         ArrayList<Integer> link = new ArrayList<Integer>();
         String nome = null, x = null, y = null, h = null;
         try{
@@ -30,41 +31,12 @@ public class InputXml {
                 // cerco il tag "city"
                 if (xmlr.isStartElement() && xmlr.getLocalName().equalsIgnoreCase("city"))
                 {
-                    //leggo il nome
-                    while(!(xmlr.isStartElement() && xmlr.getLocalName().equalsIgnoreCase("name")))
-                    {
-                        xmlr.next();
 
-                    }
-                    xmlr.next();
-                    nome = xmlr.getText();
-
-                    // leggo la coordinata x
-                    while(!(xmlr.isStartElement() && xmlr.getLocalName().equalsIgnoreCase("x")))
-                    {
-                        xmlr.next();
-
-                    }
-                    xmlr.next();
-                    x = xmlr.getText();
-
-                    // leggo la coordinata y
-                    while(!(xmlr.isStartElement() && xmlr.getLocalName().equalsIgnoreCase("y")))
-                    {
-                        xmlr.next();
-
-                    }
-                    xmlr.next();
-                    y = xmlr.getText();
-
-                    // leggo la coordinata h
-                    while(!(xmlr.isStartElement() && xmlr.getLocalName().equalsIgnoreCase("h")))
-                    {
-                        xmlr.next();
-
-                    }
-                    xmlr.next();
-                    h = xmlr.getText();
+                    id=Integer.parseInt(xmlr.getAttributeValue(0));
+                    nome = xmlr.getAttributeValue(1);
+                    x = xmlr.getAttributeValue(2);
+                    y = xmlr.getAttributeValue(3);
+                    h = xmlr.getAttributeValue(4);
 
                     while(!(xmlr.isStartElement() && xmlr.getLocalName().equalsIgnoreCase("link")))
                     {
