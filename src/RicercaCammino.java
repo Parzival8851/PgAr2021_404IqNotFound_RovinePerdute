@@ -28,30 +28,31 @@ public class RicercaCammino
 			{
 				if (!v.get(i)) // se v(i)=false
 				{
-					if (d.get(i)<=m) // se d(i)<=(+inf)
+					if (d.get(i) <= m) // se d(i)<=(+inf)
 					{
-						m=d.get(i);
-						j=i;
+						m = d.get(i);
+						j = i;
 					}
 				}
-			}
-			if(m!=Double.POSITIVE_INFINITY) // se ci sono ancora nodi da visitare
-			{
-				v.set(j,true); // marca il nodo come visitato
-				// esamina i nodi frontiera (neighbours) per j
-				for (int i = 0; i < n; i++)
+
+				if (m != Double.POSITIVE_INFINITY) // se ci sono ancora nodi da visitare
 				{
-					if (G(i,j)>0) // se esiste l'arco i->j
-					{
-						if (d.get(i)>(d.get(j)+G(i,j)))
+					v.set(j, true); // marca il nodo come visitato
+					// esamina i nodi frontiera (neighbours) per j
+					for (int k = 0; k < n; k++) {
+						if (G(j, k) > 0) // se esiste l'arco j->i
 						{
-							d.set(i,d.get(j)+G(i,j));
-							p.set(i,j);
+							if (d.get(k) > (d.get(j) + G(j, k))) {
+								d.set(k, d.get(j) + G(j, k));
+								p.set(k, j);
+							}
 						}
 					}
 				}
+
+				m = Double.POSITIVE_INFINITY;
 			}
-		}while(m==Double.POSITIVE_INFINITY); // tutti i nodi sono stati visitati
+		}while(m!=Double.POSITIVE_INFINITY); // tutti i nodi sono stati visitati
 	}
 
 	/**

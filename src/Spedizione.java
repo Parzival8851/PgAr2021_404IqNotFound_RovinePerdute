@@ -6,16 +6,7 @@ public class Spedizione
 	public static final String SPAZIO = "  ";
 	private static ArrayList<Nodo> vertici = new ArrayList<>();
 	private static double [][] archi;
-	private static InputXml lettura;
-
-	static {
-		try {
-			lettura = new InputXml();
-		} catch (XMLStreamException e) {
-			e.printStackTrace();
-		}
-	}
-
+	private static InputXml lettura=new InputXml();
 	private static RicercaCammino navigatore;
 
 
@@ -35,20 +26,18 @@ public class Spedizione
 		testArchi();
 
 		navigatore = new RicercaCammino(vertici);
-		ArrayList<Integer> path = navigatore.camminoMinimo();
-		for (int i = 0; i < path.size(); i++)
+		ArrayList<Integer> cammino = navigatore.camminoMinimo();
+		for (int i = 0; i < cammino.size(); i++)
 		{
-			System.out.print(path.get(i)+" --> ");
+			System.out.print(cammino.get(i)+" --> ");
 		}
-
-
 	}
 
 	/**
 	 * scorro la matrice in cerca di celle non zero per come l'ho costruita, quando le trovo
 	 * calcolo il collegamento i->j con la distanza euclidea
 	 */
-	private static void setDdistanze()
+	private static void setDistanze()
 	{
 		for (int i = 0; i < archi.length; i++)
 		{

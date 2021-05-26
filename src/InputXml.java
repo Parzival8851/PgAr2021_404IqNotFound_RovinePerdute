@@ -26,65 +26,74 @@ public class InputXml
     private int numeroNodi=0;
 
 
-    public Nodo readNext(){
+    /**
+     * metodo per leggere il file xml
+     */
+    public InputXml()
+    {
 
         int id = 0, x = 0, y = 0, h = 0;
         String nome = null;
-        try {
+
+        try
+        {
             xmlif = XMLInputFactory.newInstance();
             xmlr = xmlif.createXMLStreamReader("src/test_file/PgAr_Map_5.xml", new FileInputStream("src/test_file/PgAr_Map_5.xml"));
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             System.out.println(ERR_INIZ);
             System.out.println(e.getMessage());
         }
 
-
-        try{
-            while (xmlr.hasNext()) {
-                        // prendo il numero di nodi che saranno presenti nella mappa
-                        if (xmlr.isStartElement() && xmlr.getLocalName().equalsIgnoreCase(MAP)) {
-                            numeroNodi = Integer.parseInt(xmlr.getAttributeValue(0)); // leggo dimensione mappa
-                            arc = new double[numeroNodi][numeroNodi]; // creo la matrice delle interazioni
-                            for (int i = 0; i < arc.length; i++)
-                            {
-                                for (int j = 0; j < arc.length; j++)
-                                {
-                                    if(i==j) arc[i][j]=0; // arco a->a nullo
-                                    else arc[i][j]=-1; // di base arco a-b insesistente se <0
-                                }
-                            }
-                        }
-                        // cerco il tag "city" per iniziare il parsing della città
-                        else if (xmlr.isStartElement() && xmlr.getLocalName().equalsIgnoreCase(CITY)) {
-                            // ciclo sugli attributi per essere sicuro di leggere quello giusto indipendentemente dall'ordine
-                            for (int i = 0; i < xmlr.getAttributeCount(); i++)
-                            {
-                                if (xmlr.getAttributeLocalName(i).equalsIgnoreCase("h"))
-                                    h = Integer.parseInt(xmlr.getAttributeValue(i)); // caso h
-                                else if (xmlr.getAttributeLocalName(i).equalsIgnoreCase("x"))
-                                    x = Integer.parseInt(xmlr.getAttributeValue(i)); // caso x
-                                else if (xmlr.getAttributeLocalName(i).equalsIgnoreCase("y"))
-                                    y = Integer.parseInt(xmlr.getAttributeValue(i)); // caso y
-                                else if (xmlr.getAttributeLocalName(i).equalsIgnoreCase("id"))
-                                    id = Integer.parseInt(xmlr.getAttributeValue(i)); // caso id
-                                else if (xmlr.getAttributeLocalName(i).equalsIgnoreCase("name"))
-                                    nome = xmlr.getAttributeValue(i); // caso nome
-                            }
-                            // aggiungo il nodo che ho appena letto
-                            vert.add(new Nodo(x, y, h, id, nome));
-                        }
-                        else if (xmlr.isStartElement() && xmlr.getLocalName().equalsIgnoreCase(LINK)) // leggo i link
+        try
+        {
+            while (xmlr.hasNext())
+            {
+                // prendo il numero di nodi che saranno presenti nella mappa
+                if (xmlr.isStartElement() && xmlr.getLocalName().equalsIgnoreCase(MAP)) {
+                    numeroNodi = Integer.parseInt(xmlr.getAttributeValue(0)); // leggo dimensione mappa
+                    arc = new double[numeroNodi][numeroNodi]; // creo la matrice delle interazioni
+                    for (int i = 0; i < arc.length; i++)
+                    {
+                        for (int j = 0; j < arc.length; j++)
                         {
-                            // inserisco nella tabella delle connessioni l'informazione che da a8riga) a b(colonna) c'è un collegamento
-                            arc[id][Integer.parseInt(xmlr.getAttributeValue(0))] = 1;
+                            if(i==j) arc[i][j]=0; // arco a->a nullo
+                            else arc[i][j]=-1; // di base arco a-b insesistente se <0
                         }
+                    }
+                }
+                // cerco il tag "city" per iniziare il parsing della città
+                else if (xmlr.isStartElement() && xmlr.getLocalName().equalsIgnoreCase(CITY)) {
+                    // ciclo sugli attributi per essere sicuro di leggere quello giusto indipendentemente dall'ordine
+                    for (int i = 0; i < xmlr.getAttributeCount(); i++)
+                    {
+                        if (xmlr.getAttributeLocalName(i).equalsIgnoreCase("h"))
+                            h = Integer.parseInt(xmlr.getAttributeValue(i)); // caso h
+                        else if (xmlr.getAttributeLocalName(i).equalsIgnoreCase("x"))
+                            x = Integer.parseInt(xmlr.getAttributeValue(i)); // caso x
+                        else if (xmlr.getAttributeLocalName(i).equalsIgnoreCase("y"))
+                            y = Integer.parseInt(xmlr.getAttributeValue(i)); // caso y
+                        else if (xmlr.getAttributeLocalName(i).equalsIgnoreCase("id"))
+                            id = Integer.parseInt(xmlr.getAttributeValue(i)); // caso id
+                        else if (xmlr.getAttributeLocalName(i).equalsIgnoreCase("name"))
+                            nome = xmlr.getAttributeValue(i); // caso nome
+                    }
+                    // aggiungo il nodo che ho appena letto
+                    vert.add(new Nodo(x, y, h, id, nome));
+                }
+                else if (xmlr.isStartElement() && xmlr.getLocalName().equalsIgnoreCase(LINK)) // leggo i link
+                    {
+                        // inserisco nella tabella delle connessioni l'informazione che da a8riga) a b(colonna) c'è un collegamento
+                        arc[id][Integer.parseInt(xmlr.getAttributeValue(0))] = 1;
+                    }
                         xmlr.next();
                     }
-        }catch (Exception e)
+        }
+        catch (Exception e)
         {
             System.out.println("Errore: non esiste una nuova riga da leggere\n");
         }
-
     }
 
 
