@@ -39,10 +39,12 @@ public class RicercaCammino
 				{
 					v.set(j, true); // marca il nodo come visitato
 					// esamina i nodi frontiera (neighbours) per j
-					for (int k = 0; k < n; k++) {
+					for (int k = 0; k < n; k++)
+					{
 						if (G(j, k) > 0) // se esiste l'arco j->i
 						{
-							if (d.get(k) > (d.get(j) + G(j, k))) {
+							if (d.get(k) > (d.get(j) + G(j, k)))
+							{
 								d.set(k, d.get(j) + G(j, k));
 								p.set(k, j);
 							}
@@ -84,20 +86,20 @@ public class RicercaCammino
 	public ArrayList<Integer> camminoMinimo()
 	{
 		ArrayList<Integer> camminoInverso = new ArrayList<>();
-		int j=4; // id di Rovine Perdute
+		int j=n-1; // id di Rovine Perdute
+		camminoInverso.add(j);
 		do // cammino da i a x
 		{
 			camminoInverso.add(p.get(j));
 			j=p.get(j);
 		}while(j!=0); // finché j non è l'origine (0)
-		/*ArrayList<Integer> camminoCorretto = new ArrayList<>();
+		ArrayList<Integer> camminoCorretto = new ArrayList<>();
 		for (int i = camminoInverso.size()-1; i >=0; i--)
 		{
 			// inverto l'array per andare da x a i
 			camminoCorretto.add(camminoInverso.get(i));
 		}
-		return camminoCorretto;*/
-		return camminoInverso;
+		return camminoCorretto;
 	}
 
 

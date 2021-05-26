@@ -7,7 +7,10 @@ public class Spedizione
 	private static ArrayList<Nodo> vertici = new ArrayList<>();
 	private static double [][] archi;
 	private static InputXml lettura=new InputXml();
-	private static RicercaCammino navigatore;
+	private static RicercaCammino navigatoreXY;
+	private static RicercaCammino navigatoreZ;
+	private static ArrayList<Integer> camminoXY;
+	private static ArrayList<Integer> camminoZ;
 
 
 
@@ -18,18 +21,39 @@ public class Spedizione
 		// leggo quali città hanno collegamenti
 		archi= lettura.getArc();
 		// calcolo le distanze tra quelle che hanno collegamenti
-		setDistanze();
+		setDistanzeXY();
 
-
-		//test
+		/*
+		//test città
 		testNodi();
 		testArchi();
+		*/
 
-		navigatore = new RicercaCammino(vertici);
-		ArrayList<Integer> cammino = navigatore.camminoMinimo();
-		for (int i = 0; i < cammino.size(); i++)
+		// ricerca cammino XY
+		navigatoreXY = new RicercaCammino(vertici);
+		camminoXY = navigatoreXY.camminoMinimo();
+
+		// modifico la matrice per la Z
+		modificaArchiZ();
+
+		// ricerca cammino Z
+		navigatoreZ = new RicercaCammino(vertici);
+		camminoZ = navigatoreZ.camminoMinimo();
+
+		// test cammini
+		System.out.println("CAMMINO XY:");
+		stampaCammino(camminoXY);
+		System.out.println("\n\nCAMMINO Z:");//mi sento inutile
+		stampaCammino(camminoZ);
+
+	}
+
+	private static void stampaCammino(ArrayList<Integer> cammino)
+	{
+		System.out.print(cammino.get(0));
+		for (int i = 1; i < cammino.size(); i++)
 		{
-			System.out.print(cammino.get(i)+" --> ");
+			System.out.print(" --> " + cammino.get(i));
 		}
 	}
 
@@ -37,7 +61,7 @@ public class Spedizione
 	 * scorro la matrice in cerca di celle non zero per come l'ho costruita, quando le trovo
 	 * calcolo il collegamento i->j con la distanza euclidea
 	 */
-	private static void setDistanze()
+	private static void setDistanzeXY()
 	{
 		for (int i = 0; i < archi.length; i++)
 		{
@@ -85,6 +109,24 @@ public class Spedizione
 			}
 		}
 		System.out.println("\n\n");
+	}
+
+	/**
+	 * modifico la tabella: i valori già positivi (quindi dove esiste un arco)
+	 * li converto alla distanza vertyicale H(a) - H(b)
+	 */
+	private static void modificaArchiZ()
+	{
+		for (int i = 0; i < archi.length; i++)
+		{
+			for (int j = 0; j < archi.length; j++)
+			{
+				if (archi[i][j]>0) // dove esiste arco
+				{
+					archi[i][j]=Math.abs(vertici.get(i).getH()-vertici.get(j).getH()); // guardo abs del delta quota
+				}
+			}
+		}
 	}
 
 
