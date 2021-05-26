@@ -34,6 +34,12 @@ public class Spedizione
 		testNodi();
 		testArchi();
 
+		navigatore = new RicercaCammino(vertici);
+		ArrayList<Integer> path = navigatore.camminoMinimo();
+		for (int i = 0; i < path.size(); i++)
+		{
+			System.out.print(path.get(i)+" --> ");
+		}
 
 
 	}
@@ -48,7 +54,7 @@ public class Spedizione
 		{
 			for (int j = 0; j < archi.length; j++)
 			{
-				if (archi[i][j]!=0)
+				if (archi[i][j]>0) // per gli archi con 1 setto la distanza, lascio gli 0 e gli archi non esistenti con -1
 				{
 					archi[i][j]=Math.hypot(vertici.get(i).getX()-vertici.get(j).getX(), vertici.get(i).getY()-vertici.get(j).getY());
 				}

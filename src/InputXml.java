@@ -45,6 +45,14 @@ public class InputXml
                         if (xmlr.isStartElement() && xmlr.getLocalName().equalsIgnoreCase(MAP)) {
                             numeroNodi = Integer.parseInt(xmlr.getAttributeValue(0)); // leggo dimensione mappa
                             arc = new double[numeroNodi][numeroNodi]; // creo la matrice delle interazioni
+                            for (int i = 0; i < arc.length; i++)
+                            {
+                                for (int j = 0; j < arc.length; j++)
+                                {
+                                    if(i==j) arc[i][j]=0; // arco a->a nullo
+                                    else arc[i][j]=-1; // di base arco a-b insesistente se <0
+                                }
+                            }
                         }
                         // cerco il tag "city" per iniziare il parsing della città
                         else if (xmlr.isStartElement() && xmlr.getLocalName().equalsIgnoreCase(CITY)) {
