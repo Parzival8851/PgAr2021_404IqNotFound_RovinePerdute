@@ -1,5 +1,8 @@
 import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 
 public class OutputXml {
 

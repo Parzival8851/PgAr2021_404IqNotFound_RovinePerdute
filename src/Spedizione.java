@@ -1,12 +1,17 @@
+import it.unibs.fp.mylib.InputDati;
+
 import javax.xml.stream.XMLStreamException;
 import java.util.ArrayList;
 
 public class Spedizione
 {
+	private static final String MSG_SCELTA= "Scegli un numero per decidere quale mappa utilizzare \n1 per scegliere la mappa con 5 tappe \n" +
+			"2 per scegliere la mappa con 12 tappe \n3 per scegliere la mappa con 50 tappe \n4 per scegliere la mappa con 200 tappe \n" +
+			"5 per scegliere la mappa con 2000 tappe \n6 per scegliere la mappa con 10000 tappe";
 	public static final String SPAZIO = "  ";
 	private static ArrayList<Nodo> vertici = new ArrayList<>();
 	private static double [][] archi;
-	private static InputXml lettura=new InputXml();
+	private static InputXml lettura;
 	private static RicercaCammino navigatoreXY;
 	private static RicercaCammino navigatoreZ;
 	private static final String MAPPA0 = "src/test_file/PgAr_Map_5.xml";
@@ -21,6 +26,31 @@ public class Spedizione
 
 	public static void main(String[] args)
 	{
+		int scelta= InputDati.leggiIntero(MSG_SCELTA, 1, 6);
+
+		switch (scelta)
+		{
+			case 1:
+				lettura = new InputXml(MAPPA0);
+				break;
+			case 2:
+				lettura = new InputXml(MAPPA1);
+				break;
+			case 3:
+				lettura = new InputXml(MAPPA2);
+				break;
+			case 4:
+				lettura = new InputXml(MAPPA3);
+				break;
+			case 5:
+				lettura = new InputXml(MAPPA4);
+				break;
+			case 6:
+				lettura = new InputXml(MAPPA5);
+				break;
+
+
+		}
 		// leggo le città
 		vertici=lettura.getVert();
 		// leggo quali città hanno collegamenti
@@ -131,10 +161,6 @@ public class Spedizione
 			}
 		}
 	}
-
-
-
-
 
 }
 
