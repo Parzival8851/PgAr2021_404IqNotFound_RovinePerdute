@@ -29,16 +29,15 @@ public class InputXml
     /**
      * metodo per leggere il file xml
      */
-    public InputXml()
+    public InputXml(String percorso)
     {
-
         int id = 0, x = 0, y = 0, h = 0;
         String nome = null;
 
         try
         {
             xmlif = XMLInputFactory.newInstance();
-            xmlr = xmlif.createXMLStreamReader("src/test_file/PgAr_Map_5.xml", new FileInputStream("src/test_file/PgAr_Map_5.xml"));
+            xmlr = xmlif.createXMLStreamReader(percorso, new FileInputStream(percorso));
         }
         catch (Exception e)
         {

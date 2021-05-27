@@ -4,11 +4,13 @@ import java.util.Vector;
 public class RicercaCammino
 {
 	//ArrayList<PercorsoPossibile> scelte = new ArrayList<>();
-	private static Vector<Double> d = new Vector<Double>(); // vettore distanze minime da i a sorgente
-	private static Vector<Boolean> v = new Vector<>(); // vettore booleano per sapere se i è stato visitato
-	private static Vector<Integer> p = new Vector<>(); // vettore degli id dei nodi precedenti nel cammino tra i e x iniziale
-	private static int x=0; // nodo iniziale
+	private Vector<Double> d = new Vector<Double>(); // vettore distanze minime da i a sorgente
+	private Vector<Boolean> v = new Vector<>(); // vettore booleano per sapere se i è stato visitato
+	private Vector<Integer> p = new Vector<>(); // vettore degli id dei nodi precedenti nel cammino tra i e x iniziale
+	private int x=0; // nodo iniziale
 	private static int n=0; // numero dei nodi
+	private  ArrayList<Integer> camminoMinimo;
+	private  double carburante=0.0;
 
 	public RicercaCammino(ArrayList<Nodo> paese)
 	{
@@ -43,7 +45,15 @@ public class RicercaCammino
 					{
 						if (G(j, k) > 0) // se esiste l'arco j->i
 						{
-							if (d.get(k) > (d.get(j) + G(j, k)))
+							if(d.get(k) == (d.get(j) + G(j, k)))
+							{
+								if (!(j<k && k<n-1))
+								{
+									d.set(k, d.get(j) + G(j, k));
+									p.set(k, j);
+								}
+							}
+							else if (d.get(k) > (d.get(j) + G(j, k)))
 							{
 								d.set(k, d.get(j) + G(j, k));
 								p.set(k, j);
@@ -55,6 +65,9 @@ public class RicercaCammino
 				m = Double.POSITIVE_INFINITY;
 			}
 		}while(m!=Double.POSITIVE_INFINITY); // tutti i nodi sono stati visitati
+
+		camminoMinimo=camminoMinimo();
+		carburante=calcoloCarburante();
 	}
 
 	/**
@@ -83,7 +96,7 @@ public class RicercaCammino
 		return Spedizione.getArco(a, b);
 	}
 
-	public ArrayList<Integer> camminoMinimo()
+	private  ArrayList<Integer> camminoMinimo()
 	{
 		ArrayList<Integer> camminoInverso = new ArrayList<>();
 		int j=n-1; // id di Rovine Perdute
@@ -102,5 +115,19 @@ public class RicercaCammino
 		return camminoCorretto;
 	}
 
+	/**
+	 * @return distanza dall'origine di RP
+	 */
+	private  double calcoloCarburante()
+	{
+		return d.get(n-1);
+	}
 
+	public double getCarburante() {
+		return carburante;
+	}
+
+	public ArrayList<Integer> getCamminoMinimo() {
+		return camminoMinimo;
+	}
 }

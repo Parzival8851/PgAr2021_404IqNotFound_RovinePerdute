@@ -9,8 +9,13 @@ public class Spedizione
 	private static InputXml lettura=new InputXml();
 	private static RicercaCammino navigatoreXY;
 	private static RicercaCammino navigatoreZ;
-	private static ArrayList<Integer> camminoXY;
-	private static ArrayList<Integer> camminoZ;
+	private static final String MAPPA0 = "src/test_file/PgAr_Map_5.xml";
+	private static final String MAPPA1 = "src/test_file/PgAr_Map_12.xml";
+	private static final String MAPPA2 = "src/test_file/PgAr_Map_50.xml";
+	private static final String MAPPA3 = "src/test_file/PgAr_Map_200.xml";
+	private static final String MAPPA4 = "src/test_file/PgAr_Map_2000.xml";
+	private static final String MAPPA5 = "src/test_file/PgAr_Map_10000.xml";
+
 
 
 
@@ -23,29 +28,27 @@ public class Spedizione
 		// calcolo le distanze tra quelle che hanno collegamenti
 		setDistanzeXY();
 
-		/*
-		//test città
-		testNodi();
-		testArchi();
-		*/
+
 
 		// ricerca cammino XY
 		navigatoreXY = new RicercaCammino(vertici);
-		camminoXY = navigatoreXY.camminoMinimo();
+
 
 		// modifico la matrice per la Z
 		modificaArchiZ();
 
 		// ricerca cammino Z
 		navigatoreZ = new RicercaCammino(vertici);
-		camminoZ = navigatoreZ.camminoMinimo();
 
 		// test cammini
-		System.out.println("CAMMINO XY:");
-		stampaCammino(camminoXY);
-		System.out.println("\n\nCAMMINO Z:");//mi sento inutile
-		stampaCammino(camminoZ);
 
+
+		OutputXml script = new OutputXml(navigatoreXY, navigatoreZ);
+	}
+
+	public static String getNomeDaID(int i)
+	{
+		return vertici.get(i).getNome();
 	}
 
 	private static void stampaCammino(ArrayList<Integer> cammino)
