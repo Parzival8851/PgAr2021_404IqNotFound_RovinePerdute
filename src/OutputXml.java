@@ -24,10 +24,10 @@ public class OutputXml {
 
 			XMLOutputFactory outputter = XMLOutputFactory.newInstance();
 
-     	    XMLStreamWriter xmlw = outputter.createXMLStreamWriter(new FileOutputStream("Routes.xml"), UTF);
+     	    XMLStreamWriter xmlw = outputter.createXMLStreamWriter(new FileOutputStream(ROUTES), UTF);
 
             xmlw.writeStartDocument(UTF, VERSION);
-            xmlw.writeStartElement("routes");//scrivo tag radice "routes"
+            xmlw.writeStartElement(ROUTES_OPENTAG);//scrivo tag radice "routes"
 
             //xmlw.writeComment("Inizio Lista Città");//scrivo commento
 
@@ -45,11 +45,12 @@ public class OutputXml {
 	            xmlw.writeEndDocument();//scrittura fine documento
 	            xmlw.flush(); //svuota buffer e procede alla scrittura
 	            xmlw.close(); //chiusura del documento e delle risorse utilizzate
+	        System.out.println(MESSAGGIO_FINALE);
 
         }
         catch(Exception e)
         {
-            System.out.println("Errore!");
+            System.out.println(ERRORE);
         }
 
     }

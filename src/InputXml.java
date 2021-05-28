@@ -2,7 +2,7 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.FileInputStream;
-import java.io.InputStream;
+
 import java.util.ArrayList;
 
 /**
@@ -18,12 +18,10 @@ public class InputXml
     public static final String LINK = "link";
     public static final String PERCORSO_FILE = "test_file/PgAr_Map_5.xml";
 
-    private InputStream xmlInputStream;
-    private XMLInputFactory xmlif;
+
     private XMLStreamReader xmlr;
     private ArrayList<Nodo> vert =new ArrayList<>();
     private double [][] arc;
-    private int numeroNodi=0;
 
 
     /**
@@ -36,7 +34,7 @@ public class InputXml
 
         try
         {
-            xmlif = XMLInputFactory.newInstance();
+            XMLInputFactory xmlif = XMLInputFactory.newInstance();
             xmlr = xmlif.createXMLStreamReader(percorso, new FileInputStream(percorso));
         }
         catch (Exception e)
@@ -51,7 +49,7 @@ public class InputXml
             {
                 // prendo il numero di nodi che saranno presenti nella mappa
                 if (xmlr.isStartElement() && xmlr.getLocalName().equalsIgnoreCase(MAP)) {
-                    numeroNodi = Integer.parseInt(xmlr.getAttributeValue(0)); // leggo dimensione mappa
+                    int numeroNodi = Integer.parseInt(xmlr.getAttributeValue(0)); // leggo dimensione mappa
                     arc = new double[numeroNodi][numeroNodi]; // creo la matrice delle interazioni
                     for (int i = 0; i < arc.length; i++)
                     {

@@ -1,19 +1,20 @@
 import it.unibs.fp.mylib.InputDati;
 
-import javax.xml.stream.XMLStreamException;
 import java.util.ArrayList;
 
 public class Spedizione
 {
-	private static final String MSG_SCELTA= "Scegli un numero per decidere quale mappa utilizzare \n1 per scegliere la mappa con 5 tappe \n" +
-			"2 per scegliere la mappa con 12 tappe \n3 per scegliere la mappa con 50 tappe \n4 per scegliere la mappa con 200 tappe \n" +
-			"5 per scegliere la mappa con 2000 tappe \n6 per scegliere la mappa con 10000 tappe";
-	public static final String SPAZIO = "  ";
+	private static final String MSG_SCELTA= """
+			Scegli un numero per decidere quale mappa utilizzare\s
+			1 per scegliere la mappa con 5 tappe\s
+			2 per scegliere la mappa con 12 tappe\s
+			3 per scegliere la mappa con 50 tappe\s
+			4 per scegliere la mappa con 200 tappe\s
+			5 per scegliere la mappa con 2000 tappe\s
+			6 per scegliere la mappa con 10000 tappe""";
 	private static ArrayList<Nodo> vertici = new ArrayList<>();
 	private static double [][] archi;
 	private static InputXml lettura;
-	private static RicercaCammino navigatoreXY;
-	private static RicercaCammino navigatoreZ;
 	private static final String MAPPA0 = "src/test_file/PgAr_Map_5.xml";
 	private static final String MAPPA1 = "src/test_file/PgAr_Map_12.xml";
 	private static final String MAPPA2 = "src/test_file/PgAr_Map_50.xml";
@@ -23,33 +24,18 @@ public class Spedizione
 
 
 
-
 	public static void main(String[] args)
 	{
 		int scelta= InputDati.leggiIntero(MSG_SCELTA, 1, 6);
 
-		switch (scelta)
+		switch (scelta) //faccio scegliere all'utente da quale lista prendere le tappe
 		{
-			case 1:
-				lettura = new InputXml(MAPPA0);
-				break;
-			case 2:
-				lettura = new InputXml(MAPPA1);
-				break;
-			case 3:
-				lettura = new InputXml(MAPPA2);
-				break;
-			case 4:
-				lettura = new InputXml(MAPPA3);
-				break;
-			case 5:
-				lettura = new InputXml(MAPPA4);
-				break;
-			case 6:
-				lettura = new InputXml(MAPPA5);
-				break;
-
-
+			case 1 -> lettura = new InputXml(MAPPA0);
+			case 2 -> lettura = new InputXml(MAPPA1);
+			case 3 -> lettura = new InputXml(MAPPA2);
+			case 4 -> lettura = new InputXml(MAPPA3);
+			case 5 -> lettura = new InputXml(MAPPA4);
+			case 6 -> lettura = new InputXml(MAPPA5);
 		}
 		// leggo le città
 		vertici=lettura.getVert();
@@ -62,20 +48,17 @@ public class Spedizione
 
 		// ricerca cammino XY
 		//navigatoreXY = new RicercaCammino(archi, 0);
-		navigatoreXY = new RicercaCammino(archi, 0);
+		RicercaCammino navigatoreXY = new RicercaCammino(vertici);
 
 		// modifico la matrice per la Z
 		modificaArchiZ();
 
 		// ricerca cammino Z
 		//navigatoreZ = new RicercaCammino(archi, 0);
-		navigatoreZ = new RicercaCammino(archi, 0);
+		RicercaCammino navigatoreZ = new RicercaCammino(vertici);
 
-		// test cammini
-		stampaCammino(navigatoreXY.getCamminoMinimo());
-		System.out.println("\nCarburante XY: "+navigatoreXY.getCarburante());
-		stampaCammino(navigatoreZ.getCamminoMinimo());
-		System.out.println("\nCarburante Z: "+navigatoreZ.getCarburante());
+
+
 
 		OutputXml script = new OutputXml(navigatoreXY, navigatoreZ);
 
@@ -87,14 +70,8 @@ public class Spedizione
 		return vertici.get(i).getNome();
 	}
 
-	private static void stampaCammino(ArrayList<Integer> cammino)
-	{
-		System.out.print(cammino.get(0));
-		for (int i = 1; i < cammino.size(); i++)
-		{
-			System.out.print(" --> " + cammino.get(i));
-		}
-	}
+
+
 
 	/**
 	 * scorro la matrice in cerca di celle non zero per come l'ho costruita, quando le trovo

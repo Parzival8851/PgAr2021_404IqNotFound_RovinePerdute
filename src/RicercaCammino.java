@@ -4,7 +4,7 @@ import java.util.Vector;
 public class RicercaCammino
 {
 	//ArrayList<PercorsoPossibile> scelte = new ArrayList<>();
-	private Vector<Double> d = new Vector<Double>(); // vettore distanze minime da i a sorgente
+	private Vector<Double> d = new Vector<>(); // vettore distanze minime da i a sorgente
 	private Vector<Boolean> v = new Vector<>(); // vettore booleano per sapere se i è stato visitato
 	private Vector<Integer> p = new Vector<>(); // vettore degli id dei nodi precedenti nel cammino tra i e x iniziale
 	private int x=0; // nodo iniziale
@@ -14,20 +14,22 @@ public class RicercaCammino
 
 	public RicercaCammino(ArrayList<Nodo> paese)
 	{
-		x=0; // set nodo iniziale, è sempre 0 "campo base"
+		// nodo iniziale
+		int x = 0; // set nodo iniziale, è sempre 0 "campo base"
 		n= paese.size(); // set numero nodi
 		setVettori(); // set dei vettori distanza da origine, nodi precedenti e visita
 
 		d.set(x,0.0); // set d(x)=0
-		double m;
 		int j=0;
+		double m = 0;
 		do
 		{
-			m = Double.POSITIVE_INFINITY;
+
 
 			// trovo il nodo che ha distanza minima da x a quelli non ancora visitati
 			for (int i = 0; i < n; i++)
 			{
+				m = Double.POSITIVE_INFINITY;
 				if (!v.get(i)) // se v(i)=false
 				{
 					if (d.get(i) <= m) // se d(i)<=(+inf)
@@ -58,16 +60,10 @@ public class RicercaCammino
 								d.set(k, d.get(j) + G(j, k));
 								p.set(k, j);
 							}
-							/*if (d.get(k) > (d.get(j) + G(j, k)))
-							{
-								d.set(k, d.get(j) + G(j, k));
-								p.set(k, j);
-							}*/
 						}
 					}
 				}
 
-				m = Double.POSITIVE_INFINITY;
 			}
 		}while(m!=Double.POSITIVE_INFINITY); // tutti i nodi sono stati visitati
 
@@ -138,8 +134,8 @@ public class RicercaCammino
 
 
 
-
-
+		//ALtro algoritmo per Dijkstra e tentativo di A*
+		/*
 
 		public RicercaCammino(double[][] graph, int source)
 		{
@@ -183,7 +179,7 @@ public class RicercaCammino
 					}
 				}
 			}
-			camminoMinimo=calcoloRottaD(distance, graph.length-1);
+			camminoMinimo=calcoloRottaD(graph.length-1);
 			carburante=distance[graph.length - 1];
 
 		}
@@ -219,7 +215,46 @@ public class RicercaCammino
 			return camminoCorretto;
 		}
 
+		public RicercaCammino(ArrayList<Nodo> vertici, int origine) // A* per XY
+		{
+			ArrayList<Double> stima = new ArrayList<>();
+			for (int i = 0; i < vertici.size(); i++) // inizializzo le distanze euclidee tra ogni nodo e l'arrivo
+			{
+				stima.add(Math.hypot(vertici.get(i).getX()-vertici.get(vertici.size()-1).getX(),vertici.get(i).getY()-vertici.get(vertici.size()-1).getY()));
+			}
 
+			x=0; // set nodo iniziale, è sempre 0 "campo base"
+			n= vertici.size(); // set numero nodi
+			setVettori(); // set dei vettori distanza da origine, nodi precedenti e visita
+
+			d.set(x,0.0); // set d(x)=0
+			int j=0;
+			double m = 0;
+			do
+			{
+				//v.set(j, true); // marca il nodo come visitato
+				// esamina i nodi frontiera (neighbours) per j
+				Vector<Double> f = new Vector<>();
+				Vector<Integer> f2 = new Vector<>();
+				for (int k = 0; k < n; k++)
+				{
+					if (G(j, k) > 0) // se esiste l'arco j->k
+					{
+						double temp= (G(j,k)+stima.get(k));
+						f.add(temp);
+						f2.add(k);
+					}
+				}
+				int a=f2.get(f.indexOf(Collections.min(f)));
+				p.set(a,j);
+				d.set(a,d.get(j)+G(j,a));
+				j=a;
+
+			}while(j!=n-1); // tutti i nodi sono stati visitati
+
+			camminoMinimo=camminoMinimo();
+			carburante=calcoloCarburante();
+		}*/
 
 
 	}
