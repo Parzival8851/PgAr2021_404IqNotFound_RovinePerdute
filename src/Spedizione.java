@@ -61,19 +61,25 @@ public class Spedizione
 
 
 		// ricerca cammino XY
-		navigatoreXY = new RicercaCammino(vertici);
-
+		//navigatoreXY = new RicercaCammino(archi, 0);
+		navigatoreXY = new RicercaCammino(archi, 0);
 
 		// modifico la matrice per la Z
 		modificaArchiZ();
 
 		// ricerca cammino Z
-		navigatoreZ = new RicercaCammino(vertici);
+		//navigatoreZ = new RicercaCammino(archi, 0);
+		navigatoreZ = new RicercaCammino(archi, 0);
 
 		// test cammini
-
+		stampaCammino(navigatoreXY.getCamminoMinimo());
+		System.out.println("\nCarburante XY: "+navigatoreXY.getCarburante());
+		stampaCammino(navigatoreZ.getCamminoMinimo());
+		System.out.println("\nCarburante Z: "+navigatoreZ.getCarburante());
 
 		OutputXml script = new OutputXml(navigatoreXY, navigatoreZ);
+
+
 	}
 
 	public static String getNomeDaID(int i)

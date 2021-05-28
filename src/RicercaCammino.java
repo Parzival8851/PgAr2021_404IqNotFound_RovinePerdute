@@ -43,7 +43,7 @@ public class RicercaCammino
 					// esamina i nodi frontiera (neighbours) per j
 					for (int k = 0; k < n; k++)
 					{
-						if (G(j, k) > 0) // se esiste l'arco j->i
+						if (G(j, k) > 0) // se esiste l'arco j->k
 						{
 							if(d.get(k) == (d.get(j) + G(j, k)))
 							{
@@ -58,6 +58,11 @@ public class RicercaCammino
 								d.set(k, d.get(j) + G(j, k));
 								p.set(k, j);
 							}
+							/*if (d.get(k) > (d.get(j) + G(j, k)))
+							{
+								d.set(k, d.get(j) + G(j, k));
+								p.set(k, j);
+							}*/
 						}
 					}
 				}
@@ -130,4 +135,95 @@ public class RicercaCammino
 	public ArrayList<Integer> getCamminoMinimo() {
 		return camminoMinimo;
 	}
-}
+
+
+
+
+
+
+		public RicercaCammino(double[][] graph, int source)
+		{
+			int count = graph.length;
+			boolean[] visitedVertex = new boolean[count];
+			double[] distance = new double[count];
+			for (int i = 0; i < count; i++) {
+				visitedVertex[i] = false;
+				distance[i] = Double.POSITIVE_INFINITY;
+				p.add(i,0);
+			}
+
+			// Distance of self loop is zero
+			distance[source] = 0;
+			for (int i = 0; i < count; i++) {
+
+				// Update the distance between neighbouring vertex and source vertex
+				int u = findMinDistance(distance, visitedVertex);
+				if(u==-1)
+				{
+					System.out.println("Errore: "+i);
+				}
+
+				visitedVertex[u] = true;
+
+				// Update all the neighbouring vertex distances
+				for (int v = 0; v < count; v++)
+				{
+					if(!visitedVertex[v] && graph[u][v] > 0 && (distance[u] + graph[u][v] == distance[v]))
+					{
+						if(!(u<v && v< graph.length-1))
+						{
+							distance[v] = distance[u] + graph[u][v];
+							p.set(v,u);
+						}
+					}
+					else if (!visitedVertex[v] && graph[u][v] > 0 && (distance[u] + graph[u][v] < distance[v]))
+					{
+						distance[v] = distance[u] + graph[u][v];
+						p.set(v,u);
+					}
+				}
+			}
+			camminoMinimo=calcoloRottaD(distance, graph.length-1);
+			carburante=distance[graph.length - 1];
+
+		}
+
+		// Finding the minimum distance
+		private int findMinDistance(double[] distance, boolean[] visitedVertex) {
+			double minDistance = Double.POSITIVE_INFINITY;
+			int minDistanceVertex = 0;
+			for (int i = 0; i < distance.length; i++) {
+				if (!visitedVertex[i] && distance[i] < minDistance) {
+					minDistance = distance[i];
+					minDistanceVertex = i;
+				}
+			}
+			return minDistanceVertex;
+		}
+
+		private ArrayList<Integer> calcoloRottaD(double distance[], int arrivo)
+		{
+			ArrayList<Integer> camminoInverso = new ArrayList<>();
+			camminoInverso.add(arrivo);
+			do // cammino da i a x
+			{
+				camminoInverso.add(p.get(arrivo));
+				arrivo=p.get(arrivo);
+			}while(arrivo!=0); // finché j non è l'origine (0)
+			ArrayList<Integer> camminoCorretto = new ArrayList<>();
+			for (int i = camminoInverso.size()-1; i >=0; i--)
+			{
+				// inverto l'array per andare da x a i
+				camminoCorretto.add(camminoInverso.get(i));
+			}
+			return camminoCorretto;
+		}
+
+
+
+
+	}
+
+
+
+
