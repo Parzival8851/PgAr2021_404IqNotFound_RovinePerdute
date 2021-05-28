@@ -1,3 +1,5 @@
+package RovinePerdute;
+
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -7,10 +9,11 @@ public class RicercaCammino
 	private Vector<Double> d = new Vector<>(); // vettore distanze minime da i a sorgente
 	private Vector<Boolean> v = new Vector<>(); // vettore booleano per sapere se i è stato visitato
 	private Vector<Integer> p = new Vector<>(); // vettore degli id dei nodi precedenti nel cammino tra i e x iniziale
-	private int x=0; // nodo iniziale
 	private static int n=0; // numero dei nodi
 	private  ArrayList<Integer> camminoMinimo;
-	private  double carburante=0.0;
+	private  double carburante;
+
+
 
 	public RicercaCammino(ArrayList<Nodo> paese)
 	{
@@ -137,7 +140,7 @@ public class RicercaCammino
 		//ALtro algoritmo per Dijkstra e tentativo di A*
 		/*
 
-		public RicercaCammino(double[][] graph, int source)
+		public RovinePerdute.RicercaCammino(double[][] graph, int source)
 		{
 			int count = graph.length;
 			boolean[] visitedVertex = new boolean[count];
@@ -197,7 +200,7 @@ public class RicercaCammino
 			return minDistanceVertex;
 		}
 
-		private ArrayList<Integer> calcoloRottaD(double distance[], int arrivo)
+		private ArrayList<Integer> calcoloRottaD(int arrivo)
 		{
 			ArrayList<Integer> camminoInverso = new ArrayList<>();
 			camminoInverso.add(arrivo);
@@ -215,7 +218,7 @@ public class RicercaCammino
 			return camminoCorretto;
 		}
 
-		public RicercaCammino(ArrayList<Nodo> vertici, int origine) // A* per XY
+		public RovinePerdute.RicercaCammino(ArrayList<RovinePerdute.Nodo> vertici, int origine) // A* per XY
 		{
 			ArrayList<Double> stima = new ArrayList<>();
 			for (int i = 0; i < vertici.size(); i++) // inizializzo le distanze euclidee tra ogni nodo e l'arrivo

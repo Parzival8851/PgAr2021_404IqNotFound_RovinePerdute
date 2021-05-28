@@ -1,10 +1,12 @@
+package RovinePerdute;
+
 public class Nodo extends Coordinata
 {
 	private int id;
 	private String nome;
 
 	/**
-	 * Costruttore dei nodi, mi appoggio a coordinata: Nodo è un'evoluzione con ID e nome di Coordinata
+	 * Costruttore dei nodi, mi appoggio a coordinata: RovinePerdute.Nodo è un'evoluzione con ID e nome di RovinePerdute.Coordinata
 	 * @param x x
 	 * @param y y
 	 * @param h h
@@ -18,6 +20,7 @@ public class Nodo extends Coordinata
 		this.nome=nome;
 	}
 
+	// getters di nome e id
 	public String getNome()
 	{
 		return nome;

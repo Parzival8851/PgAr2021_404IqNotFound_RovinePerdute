@@ -1,3 +1,5 @@
+package RovinePerdute;
+
 import it.unibs.fp.mylib.InputDati;
 
 import java.util.ArrayList;
@@ -47,14 +49,14 @@ public class Spedizione
 
 
 		// ricerca cammino XY
-		//navigatoreXY = new RicercaCammino(archi, 0);
+		//navigatoreXY = new RovinePerdute.RicercaCammino(archi, 0);
 		RicercaCammino navigatoreXY = new RicercaCammino(vertici);
 
 		// modifico la matrice per la Z
 		modificaArchiZ();
 
 		// ricerca cammino Z
-		//navigatoreZ = new RicercaCammino(archi, 0);
+		//navigatoreZ = new RovinePerdute.RicercaCammino(archi, 0);
 		RicercaCammino navigatoreZ = new RicercaCammino(vertici);
 
 
@@ -65,6 +67,13 @@ public class Spedizione
 
 	}
 
+
+
+	/**
+	 * getter di nome da id
+	 * @param i indice della citta di cui voglio sapere il nome
+	 * @return nome della i-esima città
+	 */
 	public static String getNomeDaID(int i)
 	{
 		return vertici.get(i).getNome();
@@ -102,29 +111,6 @@ public class Spedizione
 	public static double getArco(int a, int b)
 	{
 		return archi[a][b];
-	}
-
-	private static void testNodi()
-	{
-		for (Nodo n : vertici)
-		{
-			System.out.println(n.getNome()+ SPAZIO +n.getId()+SPAZIO+n.getX()+SPAZIO+n.getY()+SPAZIO+n.getH());
-		}
-		System.out.println("\n\n");
-	}
-
-	private static void testArchi()
-	{
-		for (Nodo n : vertici)
-		{
-			System.out.println(n.getNome()+SPAZIO+n.getId());
-			for (int i = 0; i < archi.length; i++)
-			{
-				System.out.print("to "+i+":   ");
-				System.out.println(archi[n.getId()][i]);
-			}
-		}
-		System.out.println("\n\n");
 	}
 
 	/**

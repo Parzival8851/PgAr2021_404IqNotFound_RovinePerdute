@@ -1,22 +1,19 @@
+package RovinePerdute;
+
 import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import java.io.FileInputStream;
 
 import java.util.ArrayList;
 
-/**
- * classe per leggere il file XML
- */
+
 public class InputXml
 {
-
     private static final String ERR_INIZ = "Errore nell'inizializzazione del reader: ";
     private static final String CITY = "city";
     private static final String ERR_NO_RIGA = "Errore: non esiste una nuova riga da leggere\n";
     public static final String MAP = "map";
     public static final String LINK = "link";
-    public static final String PERCORSO_FILE = "test_file/PgAr_Map_5.xml";
 
 
     private XMLStreamReader xmlr;
@@ -25,7 +22,8 @@ public class InputXml
 
 
     /**
-     * metodo per leggere il file xml
+     * metodo per leggere il file di input
+     * @param percorso percorso
      */
     public InputXml(String percorso)
     {
@@ -81,7 +79,7 @@ public class InputXml
                 }
                 else if (xmlr.isStartElement() && xmlr.getLocalName().equalsIgnoreCase(LINK)) // leggo i link
                     {
-                        // inserisco nella tabella delle connessioni l'informazione che da a8riga) a b(colonna) c'è un collegamento
+                        // inserisco nella tabella delle connessioni l'informazione che da a(riga) a b(colonna) c'è un collegamento
                         arc[id][Integer.parseInt(xmlr.getAttributeValue(0))] = 1;
                     }
                         xmlr.next();
@@ -89,7 +87,7 @@ public class InputXml
         }
         catch (Exception e)
         {
-            System.out.println("Errore: non esiste una nuova riga da leggere\n");
+            System.out.println(ERR_NO_RIGA);
         }
     }
 
@@ -97,9 +95,6 @@ public class InputXml
     public ArrayList<Nodo> getVert() {
         return vert;
     }
-
-
-
 
     public double [][] getArc()
     {
